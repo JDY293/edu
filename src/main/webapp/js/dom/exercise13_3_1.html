@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>이벤트 모델-표준</h1>
+<hr>
+<button id="btn-red" data-mycolor="red">빨간색</button>
+<button id="btn-blue" data-mycolor="blue">파란색</button>
+<button id="btn-yellow" data-mycolor="yellow">노란색</button>
+<hr>
+<h3></h3>
+
+
+<script>
+const outDom = document.getElementsByTagName("h3")[0];
+outDom.textContent = `오늘은 ${new Date().toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+})} 입니다.`;
+
+function update(e) {
+	  outDom.style.color = e.target.getAttribute("data-mycolor");
+	  outDom.textContent = `오늘은 ${new Date().toLocaleDateString("ko-KR", {
+	    year: "numeric",
+	    month: "long",
+	    day: "numeric"
+	  })} 입니다.`;
+}
+
+document.getElementById("btn-red").addEventListener("click", update);
+document.getElementById("btn-blue").addEventListener("click", update);
+document.getElementById("btn-yellow").addEventListener("click", update);
+</script>
+</body>
+</html>

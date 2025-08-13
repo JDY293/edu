@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>이벤트 모델-인라인</h1>
+<hr>
+<button onclick="update (1)">빨강색</button>
+<button onclick="update (2)">파랑색</button>
+<button onclick="update (3)">노랑색</button>
+<hr>
+<h3></h3>
+
+<script>
+const outDom = document.getElementsByTagName("h3")[0];
+
+function update(num) {
+	outDom.textContent = "오늘은 " + new Date().toLocaleDateString("ko-KR", {
+	    year: "numeric",
+	    month: "long",
+	    day: "numeric"
+	}) + "입니다.";
+
+switch(num) {
+    case 1:
+        outDom.style.color = "red";
+        break;
+    case 2:
+        outDom.style.color = "blue";
+        break;
+    case 3:
+        outDom.style.color = "yellow";
+        break;
+    default :
+    	outDom.style.color = "black";
+	}
+}
+
+update(0);
+
+</script>
+</body>
+</html>

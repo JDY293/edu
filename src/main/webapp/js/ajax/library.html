@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+@font-face {
+    font-family: 'SunBatang-Light';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/SunBatang-Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+* {
+font-family: 'SunBatang-Light';
+}
+h1 {
+text-align : center;
+text-shadow : 2px 4px 4px blue;
+}
+div {
+text-align : center;
+}
+table {
+margin-left : auto;
+margin-right : auto;
+border-collapse: collapse;
+}
+th {
+background-color : pink;
+}
+</style>
+</head>
+<body>
+<h1>구별 도서관 정보를 알려줘요~~~</h1>
+<hr>
+<div>
+<button onclick = "requestAjax('동대문구')">동대문구</button>
+<button onclick = "requestAjax('동작구')">동작구</button>
+<button onclick = "requestAjax('강남구')">강남구</button>
+<button onclick = "requestAjax('마포구')">마포구</button>
+<button onclick = "requestAjax('영등포구')">영등포구</button>
+</div>
+<hr>
+
+<table border="1">
+		<tr>
+		   <th>도서관명</th><th>주소</th>
+		</tr>
+		<tr>
+		   <td id="result1"></td><td id="result2"></td>
+		</tr>	
+</table>
+
+<!-- <table id="myTable" border="1">
+  초기에는 빈 테이블
+</table> -->
+
+
+<script>
+function requestAjax(guName) {
+	const xhr = new XMLHttpRequest();
+	xhr.onload = function() {
+			const result1 = document.getElementById("result1");
+			const result2 = document.getElementById("result2");
+			result1.innerHTML = "";
+			result2.innerHTML = "";
+			const jsonObj = JSON.parse(xhr.responseText);
+			
+			
+			const target = jsonObj.SeoulPublicLibraryInfo.row;
+			
+			const filtered = [];
+			for (let i = 0; i < target.length; i++) {
+				if (target[i].CODE_VALUE.indexOf(guName) !== -1) {
+			        filtered.push(target[i]);
+			    }
+			}
+
+			for(let i in filtered) {
+				result1.innerHTML += filtered[i].LBRRY_NAME+"<br>"+"<hr>";
+				result2.innerHTML += filtered[i].ADRES +"<br>"+"<hr>";
+			}
+			
+	};
+	xhr.open("GET", "http://openapi.seoul.go.kr:8088/796143536a756e69313134667752417a/json/SeoulPublicLibraryInfo/1/1000/", true);  // GET, POST, HEAD, PUT, DELETE
+	xhr.send();
+}
+
+
+/* function requestAjax(guName) {
+	  const xhr = new XMLHttpRequest();
+	  xhr.onload = function() {
+	    const jsonObj = JSON.parse(xhr.responseText);
+	    const table = document.getElementById("myTable");
+
+	    // 테이블 초기화 (기존 내용 삭제)
+	    table.innerHTML = "";
+
+	    // 1. 헤더 행 만들기
+	    table.innerHTML += `
+	      <tr>
+	        <th>도서관명</th>
+	        <th>주소</th>
+	      </tr>
+	    `;
+
+	    // 2. 데이터 필터링
+	    const target = jsonObj.SeoulPublicLibraryInfo.row;
+	    const filtered = target.filter(item => item.CODE_VALUE.includes(guName));
+
+	    // 3. 데이터 행 추가
+	    for (let i = 0; i < filtered.length; i++) {
+	      table.innerHTML += `
+	        <tr>
+	          <td>${filtered[i].LBRRY_NAME}</td>
+	          <td>${filtered[i].ADRES}</td>
+	        </tr>
+	      `;
+	    }
+	  };
+	  xhr.open("GET", "http://openapi.seoul.go.kr:8088/796143536a756e69313134667752417a/json/SeoulPublicLibraryInfo/1/1000/", true);
+	  xhr.send();
+	} */
+
+</script>
+</body>
+</html>
